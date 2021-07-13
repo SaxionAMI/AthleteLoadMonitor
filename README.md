@@ -6,3 +6,5 @@ This tool helps coaches of sports teams (soccer, field hockey) to gain insight i
 The Athlete Load Monitor also has the capability to create predictive models on some variables. The Rated Perceived Exertion (RPE) is a good candidate to use. If the predictions of this variable deviate highly from the actual values the athletes write down in their survey, this could indicate that the player is not as fit as he / she should be. A high deviation is shown as a high risk in the tool.
 
 The tool is highly configurable with a bit of programming knowledge. Different sports clubs use different systems for tracking their players (e.g. Polar, ZXY Go, Statsports Apex) and different formats to write down the results of the questionnaires (Excel, .csv etc). The structure of the projects allows these various data sources to be combined.
+
+See [the wiki pages](https://github.com/SaxionAMI/AthleteLoadMonitor/wiki) for the technical documentation
