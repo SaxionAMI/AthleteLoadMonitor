@@ -1,0 +1,778 @@
+[
+	{
+		"name": "RPE",
+		"extension": ".xlsx",
+		"preprocessors": [],
+		"create_new_if_not_mapped": true,
+		"fields": [
+			{
+				"inner_name": "had_to_stop",
+				"outer_identifier": "PlayerHadToStop",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "duration_min",
+				"outer_identifier": "PlayerTotalDurationInMinutes",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "no_exercises",
+				"outer_identifier": "PlayerNumberOfExercises",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "rpe",
+				"outer_identifier": "PlayerSRPE",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "player_name",
+				"outer_identifier": "PlayerFullName",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "timestamp",
+				"outer_identifier": "GroupTrainingAppointmentStart",
+				"use_index": false,
+				"value_resolver": "TimestampBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "was_absent",
+				"outer_identifier": "PlayerWasAbsent",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			}
+		],
+		"mapping_fields": [
+			{
+				"field_name": "player_id",
+				"tolerance_s": 0
+			},
+			{
+				"field_name": "timestamp",
+				"tolerance_s": 10800000
+			}
+		]
+	},
+	{
+		"name": "Wellbeing survey",
+		"extension": ".xlsx",
+		"preprocessors": [],
+		"fields": [
+			{
+				"inner_name": "leg_pain",
+				"outer_identifier": "Spierpijn benen",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "sleep_quality",
+				"outer_identifier": "Kwaliteit van slapen",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "stress",
+				"outer_identifier": "Stress",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "general_fatigue",
+				"outer_identifier": "Algemene vermoeidheid",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "player_name",
+				"outer_identifier": "PersonFullName",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "calculated_score",
+				"outer_identifier": "CalculatedScore",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "mood",
+				"outer_identifier": "Opmerking",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "timestamp",
+				"outer_identifier": "ReportDate",
+				"use_index": false,
+				"value_resolver": "TimestampBodyResolver",
+				"from_body": true
+			}
+		],
+		"mapping_fields": [
+			{
+				"field_name": "player_id",
+				"tolerance_s": 0
+			},
+			{
+				"field_name": "timestamp",
+				"tolerance_s": 43200000
+			}
+		],
+		"create_new_if_not_mapped": false
+	},
+	{
+		"name": "Polar raw",
+		"extension": ".csv",
+		"preprocessors": [
+			{
+				"preprocessor": "FillNaPreprocessor",
+				"method_value": "ffill",
+				"outer_identifier": "cadence",
+				"assign_to_column": "cadence"
+			},
+			{
+				"preprocessor": "FillNaPreprocessor",
+				"method_value": "ffill",
+				"outer_identifier": "hr",
+				"assign_to_column": "hr"
+			},
+			{
+				"preprocessor": "DeltaValuePreprocessor",
+				"method_value": 1,
+				"outer_identifier": "distance",
+				"assign_to_column": "delta_distance"
+			},
+			{
+				"preprocessor": "CombineExactPolarTimePreprocessor",
+				"method_value": null,
+				"outer_identifier": "time",
+				"assign_to_column": "time"
+			}
+		],
+		"fields": [
+			{
+				"inner_name": "player_name",
+				"outer_identifier": [
+					3,
+					4
+				],
+				"use_index": true,
+				"value_resolver": "FileNameValueResolver",
+				"from_body": false,
+				"separator": "_"
+			},
+			{
+				"inner_name": "recorded_duration",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "MaxMinDifferenceValueResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "distance",
+				"outer_identifier": "distance",
+				"use_index": false,
+				"value_resolver": "MaxMinDifferenceValueResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "avg_heart_rate",
+				"outer_identifier": "hr",
+				"use_index": false,
+				"value_resolver": "AverageValueResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "avg_speed",
+				"outer_identifier": [
+					"distance",
+					"recorded_duration"
+				],
+				"use_index": false,
+				"value_resolver": "CalculatedAverageValueResolver",
+				"from_body": false
+			},
+			{
+				"inner_name": "sprint_distance",
+				"outer_identifier": "delta_distance",
+				"use_index": false,
+				"value_resolver": "DistanceValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 20
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 50
+					}
+				]
+			},
+			{
+				"inner_name": "high_speed_distance",
+				"outer_identifier": "delta_distance",
+				"use_index": false,
+				"value_resolver": "DistanceValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 15
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 20
+					}
+				]
+			},
+			{
+				"inner_name": "run_distance",
+				"outer_identifier": "delta_distance",
+				"use_index": false,
+				"value_resolver": "DistanceValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 12
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 15
+					}
+				]
+			},
+			{
+				"inner_name": "high_accel_distance",
+				"outer_identifier": "delta_distance",
+				"use_index": false,
+				"value_resolver": "DistanceValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "gte",
+						"value": 2
+					},
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "lt",
+						"value": 50
+					}
+				]
+			},
+			{
+				"inner_name": "high_decel_distance",
+				"outer_identifier": "delta_distance",
+				"use_index": false,
+				"value_resolver": "DistanceValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "gte",
+						"value": -50
+					},
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "lt",
+						"value": -2
+					}
+				]
+			},
+			{
+				"inner_name": "sprint_time",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "TotalDurationValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 20
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 50
+					}
+				]
+			},
+			{
+				"inner_name": "high_speed_time",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "TotalDurationValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 15
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 20
+					}
+				]
+			},
+			{
+				"inner_name": "run_time",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "TotalDurationValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 12
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 15
+					}
+				]
+			},
+			{
+				"inner_name": "high_accel_time",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "TotalDurationValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "gte",
+						"value": 2
+					},
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "lt",
+						"value": 50
+					}
+				]
+			},
+			{
+				"inner_name": "high_decel_time",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "TotalDurationValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "gte",
+						"value": -50
+					},
+					{
+						"name": "forward_acceleration",
+						"cmaparison": "lt",
+						"value": -2
+					}
+				]
+			},
+			{
+				"inner_name": "nr_sprint_actions",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "ActionCountResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 20
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 50
+					}
+				]
+			},
+			{
+				"inner_name": "nr_high_rate_actions",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "ActionCountResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 15
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 20
+					}
+				]
+			},
+			{
+				"inner_name": "nr_run_actions",
+				"outer_identifier": null,
+				"use_index": false,
+				"value_resolver": "ActionCountResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "speed",
+						"cmaparison": "gte",
+						"value": 12
+					},
+					{
+						"name": "speed",
+						"cmaparison": "lt",
+						"value": 15
+					}
+				]
+			},
+			{
+				"inner_name": "accumulated_load",
+				"outer_identifier": "forward_acceleration",
+				"use_index": false,
+				"from_body": true,
+				"value_resolver": "LoadValueResolver"
+			},
+			{
+				"inner_name": "hrzone5",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "HrZoneValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "hr",
+						"cmaparison": "gt",
+						"value": 180
+					},
+					{
+						"name": "hr",
+						"cmaparison": "lte",
+						"value": 200
+					}
+				]
+			},
+			{
+				"inner_name": "hrzone4",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "HrZoneValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "hr",
+						"cmaparison": "gt",
+						"value": 160
+					},
+					{
+						"name": "hr",
+						"cmaparison": "lte",
+						"value": 180
+					}
+				]
+			},
+			{
+				"inner_name": "hrzone3",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "HrZoneValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "hr",
+						"cmaparison": "gt",
+						"value": 140
+					},
+					{
+						"name": "hr",
+						"cmaparison": "lte",
+						"value": 160
+					}
+				]
+			},
+			{
+				"inner_name": "hrzone2",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "HrZoneValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "hr",
+						"cmaparison": "gt",
+						"value": 120
+					},
+					{
+						"name": "hr",
+						"cmaparison": "lte",
+						"value": 140
+					}
+				]
+			},
+			{
+				"inner_name": "hrzone1",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "HrZoneValueResolver",
+				"from_body": true,
+				"dataframe_query": [
+					{
+						"name": "hr",
+						"cmaparison": "gt",
+						"value": 100
+					},
+					{
+						"name": "hr",
+						"cmaparison": "lte",
+						"value": 120
+					}
+				]
+			},
+			{
+				"inner_name": "timestamp",
+				"outer_identifier": "time",
+				"use_index": false,
+				"value_resolver": "FirstTimestampBodyResolver",
+				"from_body": true
+			}
+		],
+		"mapping_fields": [
+			{
+				"field_name": "player_id",
+				"tolerance_s": 0
+			},
+			{
+				"field_name": "timestamp",
+				"tolerance_s": 10800000
+			}
+		],
+		"create_new_if_not_mapped": true
+	},
+	{
+		"name": "Polar data",
+		"extension": ".csv",
+		"preprocessors": [],
+		"fields": [
+			{
+				"inner_name": "timestamp",
+				"outer_identifier": "Timestamp",
+				"use_index": false,
+				"value_resolver": "TimestampBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "recorded_duration",
+				"outer_identifier": "Recorded Duration",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "distance",
+				"outer_identifier": "Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "avg_speed",
+				"outer_identifier": "Avg Speed",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "avg_heart_rate",
+				"outer_identifier": "Avg Heartrate",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "sprint_distance",
+				"outer_identifier": "Sprint Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "sprint_time",
+				"outer_identifier": "Sprint Time",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_speed_distance",
+				"outer_identifier": "High-speed Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_speed_time",
+				"outer_identifier": "High-speed Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "run_distance",
+				"outer_identifier": "Run Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "run_time",
+				"outer_identifier": "Run Time",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "nr_sprint_actions",
+				"outer_identifier": "Nr Sprint Actions",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "nr_high_rate_actions",
+				"outer_identifier": "Nr High-rate Actions",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "nr_run_actions",
+				"outer_identifier": "Nr Run Actions",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_accel_distance",
+				"outer_identifier": "High-accel Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_accel_time",
+				"outer_identifier": "High-accel Time",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_decel_distance",
+				"outer_identifier": "High-decel Distance",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "high_decel_time",
+				"outer_identifier": "High-decel Time",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "accumulated_load",
+				"outer_identifier": "Accumulated Load",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "hrzone1",
+				"outer_identifier": "HRZone1",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "hrzone2",
+				"outer_identifier": "HRZone2",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "hrzone3",
+				"outer_identifier": "HRZone3",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "hrzone4",
+				"outer_identifier": "HRZone4",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "hrzone5",
+				"outer_identifier": "HRZone5",
+				"use_index": false,
+				"value_resolver": "ValueBodyResolver",
+				"from_body": true
+			},
+			{
+				"inner_name": "player_name",
+				"outer_identifier": 0,
+				"use_index": true,
+				"value_resolver": "FileNameValueResolver",
+				"from_body": false,
+				"separator": " "
+			}
+		],
+		"mapping_fields": [
+			{
+				"field_name": "player_id",
+				"tolerance_s": 0
+			},
+			{
+				"field_name": "timestamp",
+				"tolerance_s": 10800000
+			}
+		],
+		"create_new_if_not_mapped": true
+	}
+]

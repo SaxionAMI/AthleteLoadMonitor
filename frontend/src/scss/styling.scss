@@ -1,0 +1,40 @@
+// Import variables --> bootstrap --> this file
+@import "_variables";
+
+.color-footer {
+  background: $color-nav
+}
+
+.changeimage {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.changeimage + label {
+    border-radius: 5px;
+    padding:3px;
+    color: white;
+    background-color: #858585;
+    display: inline-block;
+}
+
+.changeimage:focus + label,
+.changeimage + label:hover {
+    background-color: #545454;
+}
+
+.color-acwr {
+  background: $color-health-green;
+}
+
+.buttonDialog{
+  border-radius: 5px;
+  padding:3px;
+  color: white;
+  background-color: #858585;
+  display: inline-block;
+}

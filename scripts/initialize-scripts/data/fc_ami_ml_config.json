@@ -1,0 +1,71 @@
+[
+  {
+    "predicted_value_name": "p_RPE",
+    "training_fields": [
+      "accumulated_load",
+      "avg_heart_rate",
+      "avg_speed",
+      "calculated_score",
+      "distance",
+      "duration_min",
+      "general_fatigue",
+      "had_to_stop",
+      "high_accel_distance",
+      "high_accel_time",
+      "high_decel_distance",
+      "high_decel_time",
+      "high_speed_distance",
+      "high_speed_time",
+      "hrzone1",
+      "hrzone2",
+      "hrzone3",
+      "hrzone4",
+      "hrzone5",
+      "leg_pain",
+      "mood",
+      "no_exercises",
+      "nr_high_rate_actions",
+      "nr_run_actions",
+      "nr_sprint_actions",
+      "recorded_duration",
+      "run_distance",
+      "run_time",
+      "sleep_quality",
+      "sprint_distance",
+      "sprint_time",
+      "stress",
+      "was_absent"
+    ],
+    "training_label_field": "rpe",
+    "display_label": "RPE",
+    "avg_field": "avg_rpe"
+  },
+  {
+    "predicted_value_name": "Distance",
+    "training_fields": [],
+    "training_label_field": "distance",
+    "display_label": "Total Distance",
+    "avg_field": "Avg Distance"
+  },
+  {
+    "predicted_value_name": "High Speed Distance",
+    "training_fields": [],
+    "training_label_field": "high_speed_distance",
+    "display_label": "High Speed Distance",
+    "avg_field": "Avg HS Distance"
+  },
+  {
+    "predicted_value_name": "Average Heart Rate",
+    "training_fields": [],
+    "training_label_field": "avg_heart_rate",
+    "display_label": "Average Heart Rate",
+    "avg_field": "Avg Heart Rate"
+  },
+  {
+    "predicted_value_name": "Stress",
+    "training_fields": [],
+    "training_label_field": "stress",
+    "display_label": "Stress",
+    "avg_field": "Avg Stress"
+  }
+]
