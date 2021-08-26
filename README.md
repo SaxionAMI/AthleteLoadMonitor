@@ -1,7 +1,7 @@
 # AthleteLoadMonitor
 **Load Monitoring and Prediction tool for Team Sports Coaches**
 
-This tool helps coaches of sports teams (soccer, field hockey) to gain insight in the fitness of their players. It combines data gathered from sensors during a training (e.g. acceleration, speed, distance, heart rate) with questionnaire data (e.g. wellbeing and Rated Perceived Exertion). Trends in this date can be visualized in the tool and can be used to make decisions on the training schedule of the athletes.
+This tool helps coaches of sports teams (soccer, field hockey) to gain insight in the fitness of their players. It combines data gathered from sensors during a training (e.g. acceleration, speed, distance, heart rate) with questionnaire data (e.g. wellbeing and Rated Perceived Exertion). Trends in this data can be visualized in the tool and can be used to make decisions on the training schedule of the athletes.
 
 | <p align="center"><img src="https://github.com/SaxionAMI/AthleteLoadMonitor/raw/main/resources/player_list.png"></p> |
 |:--:|
